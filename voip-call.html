@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VOIP Communication</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex items-center justify-center h-screen bg-gray-900">
+    <div class="bg-white p-6 rounded-2xl shadow-lg w-96">
+        <h2 class="text-center text-2xl font-bold text-gray-900">VOIP Secure Communication</h2>
+
+        <!-- Message Input -->
+        <textarea id="messageInput" placeholder="Type your message..." 
+                  class="w-full mt-4 p-2 border rounded-lg"></textarea>
+
+        <!-- Encryption Key Input -->
+        <input id="encryptionKey" type="text" placeholder="Enter encryption key" 
+               class="w-full mt-2 p-2 border rounded-lg"/>
+
+        <!-- Encrypt & Send Button -->
+        <button onclick="encryptAndSend()" class="w-full mt-4 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700">
+            Encrypt & Send
+        </button>
+
+        <!-- Received Encrypted Message -->
+        <div class="mt-4 p-3 bg-gray-200 rounded-lg">
+            <p class="text-sm text-gray-700">Received Encrypted Message:</p>
+            <p id="encryptedOutput" class="font-mono text-gray-900 break-all"></p>
+        </div>
+
+        <!-- Decrypt Message Button -->
+        <button onclick="decryptMessage()" class="w-full mt-4 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
+            Decrypt Message
+        </button>
+
+        <!-- Decrypted Message Output -->
+        <div class="mt-4 p-3 bg-gray-200 rounded-lg">
+            <p class="text-sm text-gray-700">Decrypted Message:</p>
+            <p id="decryptedOutput" class="font-mono text-gray-900 break-all"></p>
+        </div>
+    </div>
+
+    <script>
+        let encryptedMessage = "";
+
+        function encryptAndSend() {
+            let message = document.getElementById("messageInput").value;
+            let key = document.getElementById("encryptionKey").value;
+            
+            if (!message || !key) {
+                alert("Enter a message and encryption key!");
+                return;
+            }
+
+            // Simulated encryption (Basic XOR for demo purposes)
+            encryptedMessage = btoa([...message].map((c, i) => 
+                String.fromCharCode(c.charCodeAt(0) ^ key.charCodeAt(i % key.length))
+            ).join(''));
+
+            document.getElementById("encryptedOutput").innerText = encryptedMessage;
+        }
+
+        function decryptMessage() {
+            let key = document.getElementById("encryptionKey").value;
+
+            if (!encryptedMessage || !key) {
+                alert("No encrypted message found or missing key!");
+                return;
+            }
+
+            // Simulated decryption (Reverse XOR)
+            let decryptedMessage = [...atob(encryptedMessage)].map((c, i) => 
+                String.fromCharCode(c.charCodeAt(0) ^ key.charCodeAt(i % key.length))
+            ).join('');
+
+            document.getElementById("decryptedOutput").innerText = decryptedMessage;
+        }
+    </script>
+</body>
+</html>

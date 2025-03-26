@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decrypt Message</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="h-screen flex justify-center items-center bg-gray-900">
+    <div class="bg-white p-6 rounded-2xl shadow-lg w-96">
+        <h2 class="text-center text-2xl font-bold text-gray-900">Decrypt Message</h2>
+
+        <input id="encryptedInput" type="text" placeholder="Enter encrypted message" class="w-full mt-4 p-2 border rounded-lg"/>
+        <button onclick="decryptMessage()" class="w-full mt-4 bg-red-600 text-white py-2 rounded-lg hover:bg-red-700">
+            Decrypt
+        </button>
+
+        <div class="mt-4 p-3 bg-gray-200 rounded-lg">
+            <p class="text-sm text-gray-700">Decrypted Message:</p>
+            <p id="decryptedMessage" class="font-mono text-gray-900 break-all text-xs"></p>
+        </div>
+    </div>
+
+    <script>
+        function decryptMessage() {
+            let encrypted = document.getElementById("encryptedInput").value;
+            let decrypted = atob(encrypted); // Simple Base64 Decoding
+            document.getElementById("decryptedMessage").innerText = decrypted;
+        }
+    </script>
+</body>
+</html>

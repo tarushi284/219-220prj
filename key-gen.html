@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Key Generation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex items-center justify-center h-screen bg-gray-900">
+    <div class="bg-white p-6 rounded-2xl shadow-lg w-96">
+        <h2 class="text-center text-2xl font-bold text-gray-900">Generate Encryption Keys</h2>
+
+        <!-- Key Type Selection -->
+        <select id="keyType" class="w-full mt-4 px-4 py-2 border rounded-lg">
+            <option value="symmetric">Symmetric (AES)</option>
+            <option value="asymmetric">Asymmetric (RSA)</option>
+        </select>
+
+        <!-- Generate Key Button -->
+        <button onclick="generateKey()" class="w-full mt-4 bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700">
+            Generate Key
+        </button>
+
+        <!-- Key Display -->
+        <div class="mt-4 p-3 bg-gray-200 rounded-lg">
+            <p class="text-sm text-gray-700">Generated Key:</p>
+            <p id="keyOutput" class="font-mono text-gray-900 break-all"></p>
+        </div>
+
+        <!-- Download Key Button -->
+        <button onclick="downloadKey()" class="w-full mt-4 bg-gray-500 text-white py-2 rounded-lg hover:bg-gray-600">
+            Download Key
+        </button>
+    </div>
+
+    <script>
+        let generatedKey = "";
+
+        function generateKey() {
+            let keyType = document.getElementById("keyType").value;
+            let output = document.getElementById("keyOutput");
+
+            if (keyType === "symmetric") {
+                // Simulating AES key (16-character random string)
+                generatedKey = Math.random().toString(36).substring(2, 18);
+            } else {
+                // Simulating RSA key (Basic string representation)
+                generatedKey = "-----BEGIN RSA KEY-----\n" + 
+                               btoa(Math.random().toString(36)) + 
+                               "\n-----END RSA KEY-----";
+            }
+
+            output.innerText = generatedKey;
+        }
+
+        function downloadKey() {
+            if (!generatedKey) {
+                alert("Generate a key first!");
+                return;
+            }
+
+            let blob = new Blob([generatedKey], { type: "text/plain" });
+            let a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = "encryption_key.txt";
+            a.click();
+        }
+    </script>
+</body>
+</html>
